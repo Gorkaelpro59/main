@@ -1,14 +1,14 @@
 if game.PlaceId == 3623096087 then
-
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
     local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-    
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
     -- Crear ScreenGui
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "MiLibreriaGui"
     screenGui.Parent = PlayerGui
-    
+
     -- Crear botón para activar/desactivar la operación de repetición
     local repButton = Instance.new("TextButton")
     repButton.Size = UDim2.new(0, 200, 0, 50)
@@ -30,16 +30,9 @@ if game.PlaceId == 3623096087 then
     automationButton.Text = "Iniciar Automatización"
     automationButton.Parent = screenGui
     
-    -- Requiere la librería
-    local MiLibreria = require
-    
     -- mi_libreria.lua
     
     local MiLibreria = {}
-    
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
     
     -- Función para manejar la operación de repetición
     function MiLibreria.RepOperation(Value)
@@ -159,4 +152,20 @@ if game.PlaceId == 3623096087 then
         end)
     end
     
+    -- Conectar botones a funciones
+    repButton.MouseButton1Click:Connect(function()
+        local isActive = repButton.Text == "Activar Repetición"
+        MiLibreria.RepOperation(isActive)
+        repButton.Text = isActive and "Desactivar Repetición" or "Activar Repetición"
+    end)
+    
+    toggleFramesButton.MouseButton1Click:Connect(function()
+        local areFramesVisible = toggleFramesButton.Text == "Mostrar Frames"
+        MiLibreria.ToggleFrames(areFramesVisible)
+        toggleFramesButton.Text = areFramesVisible and "Ocultar Frames" or "Mostrar Frames"
+    end)
+    
+    automationButton.MouseButton1Click:Connect(function()
+        MiLibreria.StartAutomation()
+    end)
 end
